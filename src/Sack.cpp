@@ -68,7 +68,7 @@ Handful* Sack::grab_new_handful() noexcept
 
 Handful* Sack::find_with_grains() noexcept
 {
-    // Doesn't make sense to search an empty loot
+    // Doesn't make sense to search an empty load
     if (load.empty()) return grab_new_handful();
 
     // Start from the current handful
@@ -90,7 +90,7 @@ Handful* Sack::find_with_grains() noexcept
 
 Handful* Sack::find_with_room() noexcept
 {
-    // Doesn't make sense to search an empty loot
+    // Doesn't make sense to search an empty load
     if (load.empty()) return nullptr;
 
     // Start from the current handful
