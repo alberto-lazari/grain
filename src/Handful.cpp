@@ -51,7 +51,7 @@ bool Handful::grab(const std::size_t grain_size, const uint8_t grains_count) noe
     std::size_t i = 0;
     for (std::byte* grain = grains; i < grains_count; grain += grain_size)
     {
-        *reinterpret_cast<uint8_t*>(grain) = ++i % grains_count;
+        *reinterpret_cast<uint8_t*>(grain) = ++i;
     }
 
     return true;
