@@ -35,7 +35,7 @@ public:
     /**
      * Grab a handful of grains from the sack, ready to be distributed.
      */
-    void grab(const std::size_t grain_size, const uint8_t grains_count) noexcept;
+    bool grab(const std::size_t grain_size, const uint8_t grains_count) noexcept;
 
     /**
      * Pick a grain from the handful (request allocated memory).
@@ -45,7 +45,7 @@ public:
     /**
      * Put a grain back into the handful for reuse (release memory).
      */
-    void put_back(void* const grain, const std::size_t grain_size) noexcept;
+    bool put_back(void* const grain, const std::size_t grain_size) noexcept;
 };
 
 } // namespace grain
