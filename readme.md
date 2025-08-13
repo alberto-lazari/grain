@@ -14,7 +14,8 @@ The generic, long names he used in his implementation looked pretty ugly to me,
 so I gave them a farming twist,
 mapping each to a concrete item related to grains of wheat
 (symbolizing small objects in memory):
-- `Silo`: main storage, serves memory allocations.
-  Represents `SmallObjectAllocator`.
-- `Sack`: fixed-size storage of wheat. Represents `FixedAllocator`.
-- `Handful`: a small handful of grains. Represents `Chunk`.
+| Name      | Analogy                                 | Original Name          |
+| --------- | --------------------------------------- | ---------------------- |
+| `Silo`    | Main storage, serves memory allocations | `SmallObjectAllocator` |
+| `Sack`    | Fixed-size storage of wheat             | `FixedAllocator`       |
+| `Handful` | A small handful of grains               | `Chunk`                |
