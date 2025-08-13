@@ -20,11 +20,12 @@ private:
 
 public:
     void* pick() noexcept;
-    void put_back(void* const grain) noexcept;
+    bool put_back(void* const grain) noexcept;
 
 private:
     Handful* grab_new_handful() noexcept;
-    Handful* find_available_handful() noexcept;
+    Handful* find_with_grains() noexcept;
+    Handful* find_with_room() noexcept;
 };
 
 } // namespace grain

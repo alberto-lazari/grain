@@ -29,8 +29,8 @@ public:
     ~Handful();
 
 
-    constexpr bool has_grains() const noexcept { return available_grains > 0; }
-    constexpr bool accepts_grains() const noexcept { return available_grains < HAND_CAPACITY; }
+    constexpr bool is_empty() const noexcept { return available_grains <= 0; }
+    constexpr bool is_full() const noexcept { return available_grains >= HAND_CAPACITY; }
 
     /**
      * Grab a handful of grains from the sack, ready to be distributed.
