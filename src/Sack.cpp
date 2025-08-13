@@ -49,7 +49,7 @@ bool Sack::put_back(void* const grain) noexcept
         // Keep the full hand as last
         if (last != put_back_hand) std::swap(*put_back_hand, *last);
         // Search only if the full hand was already last
-        else if (!(put_back_hand = find_with_room())) return false;
+        else if (!( put_back_hand = find_with_room() )) return false;
     }
 
     return put_back_hand->put_back(grain, grain_size);
@@ -108,8 +108,8 @@ Handful* Sack::find_with_room() noexcept
         b = (b + load_size - 1) % load_size)
     {
         Handful* handful = nullptr;
-        if (!(handful = &load[f])->is_full()) return handful;
-        if (!(handful = &load[b])->is_full()) return handful;
+        if (!( handful = &load[f] )->is_full()) return handful;
+        if (!( handful = &load[b] )->is_full()) return handful;
     }
 
     // Grab new if couldn't find a suitable one
