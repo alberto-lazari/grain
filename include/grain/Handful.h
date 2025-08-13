@@ -9,13 +9,33 @@ namespace grain
 
 class Handful
 {
+private:
+    std::byte* grains {};
+    uint8_t first_available_grain = 0;
+    uint8_t available_grains = 0;
+
 public:
     static constexpr std::size_t HAND_CAPACITY = std::numeric_limits<uint8_t>::max();
 
+    Handful() noexcept = default;
+
+    Handful(Handful&& other) noexcept;
+    Handful& operator=(Handful&& other) noexcept;
+
+    // Prevent copies
+    Handful(const Handful&) = delete;
+    Handful& operator=(const Handful&) = delete;
+
+    ~Handful();
+
+
+    constexpr bool has_grains() const noexcept { return available_grains > 0; }
+    constexpr bool accepts_grains() const noexcept { return available_grains < HAND_CAPACITY; }
+
     /**
-     * Grab a handful of grains from the pool, ready to be distributed.
+     * Grab a handful of grains from the sack, ready to be distributed.
      */
-    void grab(const std::size_t grain_size, const uint8_t grains_count);
+    void grab(const std::size_t grain_size, const uint8_t grains_count) noexcept;
 
     /**
      * Pick a grain from the handful (request allocated memory).
@@ -25,13 +45,7 @@ public:
     /**
      * Put a grain back into the handful for reuse (release memory).
      */
-    void put_back(void* grain, const std::size_t grain_size) noexcept;
-
-private:
-    std::byte* grains {};
-    uint8_t first_available_grain = 0;
-    uint8_t available_grains = 0;
-
+    void put_back(void* const grain, const std::size_t grain_size) noexcept;
 };
 
 } // namespace grain

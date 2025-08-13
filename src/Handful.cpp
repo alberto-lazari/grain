@@ -1,14 +1,19 @@
 #include "grain/Handful.h"
 
+#include <new>
+
 namespace grain
 {
 
-void Handful::grab(const std::size_t grain_size, const uint8_t grains_count)
+void Handful::grab(const std::size_t grain_size, const uint8_t grains_count) noexcept
 {
-    // Cannot address more than 255 blocks, fail silently.
+    // Cannot hold more than HAND_CAPACITY grains, fail silently
     if (grains_count > HAND_CAPACITY) return;
 
-    grains = new std::byte[grain_size * grains_count];
+    grains = new (std::nothrow) std::byte[grain_size * grains_count];
+
+    // Fail silently on allocation failure
+    if (grains == nullptr) return;
 
     first_available_grain = 0;
     available_grains = grains_count;
@@ -34,7 +39,7 @@ void* Handful::pick(const std::size_t grain_size) noexcept
     return grain;
 }
 
-void Handful::put_back(void* grain, const std::size_t grain_size) noexcept
+void Handful::put_back(void* const grain, const std::size_t grain_size) noexcept
 {
     const std::size_t grain_index = (static_cast<std::byte*>(grain) - grains) / grain_size;
 
@@ -52,6 +57,36 @@ void Handful::put_back(void* grain, const std::size_t grain_size) noexcept
     *reinterpret_cast<uint8_t*>(grain) = first_available_grain;
     first_available_grain = grain_index;
     ++available_grains;
+}
+
+Handful::Handful(Handful&& other) noexcept
+    : grains(other.grains)
+    , first_available_grain(other.first_available_grain)
+    , available_grains(other.available_grains)
+{
+    other.grains = nullptr;
+    other.first_available_grain = 0;
+    other.available_grains = 0;
+}
+
+Handful& Handful::operator=(Handful&& other) noexcept
+{
+    if (this != &other)
+    {
+        grains = other.grains;
+        first_available_grain = other.first_available_grain;
+        available_grains = other.available_grains;
+
+        other.grains = nullptr;
+        other.first_available_grain = 0;
+        other.available_grains = 0;
+    }
+    return *this;
+}
+
+Handful::~Handful()
+{
+    delete[] grains;
 }
 
 } // namespace grain

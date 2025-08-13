@@ -14,12 +14,12 @@ The generic, long names he used in his implementation looked pretty ugly to me,
 so I decided to give them a farming twist,
 mapping each to a concrete item related to grains of wheat:
 
-| Name      | Analogy                                 | Original Name          |
-| --------- | --------------------------------------- | ---------------------- |
-| `Silo`    | Main storage, serves memory allocations | `SmallObjectAllocator` |
-| `Sack`    | Fixed-size storage of wheat             | `FixedAllocator`       |
-| `Handful` | A small handful of grains               | `Chunk`                |
-| `Grain`   | Smallest distributable unit             | Memory block           |
+| Name      | Analogy                                  | Original Name          |
+| --------- | ---------------------------------------- | ---------------------- |
+| `Silo`    | Main storage of different kinds of grain | `SmallObjectAllocator` |
+| `Sack`    | Set of grains of the same kind (size)    | `FixedAllocator`       |
+| `Handful` | A small handful of grains                | `Chunk`                |
+| `Grain`   | Smallest distributable unit              | Memory block           |
 
 > [!NOTE]
 > I'm well aware that this entire *grain metaphor*-thing makes the code pretty unreadable,
