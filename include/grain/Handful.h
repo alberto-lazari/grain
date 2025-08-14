@@ -9,13 +9,16 @@ namespace grain
 
 class Handful
 {
+public:
+    using Count_t = std::uint8_t;
+
 private:
     std::byte* grains {};
-    uint8_t first_available_grain = 0;
-    uint8_t available_grains = 0;
+    Count_t first_available_grain = 0;
+    Count_t available_grains = 0;
 
 public:
-    static constexpr std::size_t HAND_CAPACITY = std::numeric_limits<uint8_t>::max();
+    static constexpr std::size_t HAND_CAPACITY = std::numeric_limits<Count_t>::max();
 
     Handful() noexcept = default;
 
@@ -35,7 +38,7 @@ public:
     /**
      * Grab a handful of grains from the sack, ready to be distributed.
      */
-    bool grab(const std::size_t grain_size, const uint8_t grains_count) noexcept;
+    bool grab(const std::size_t grain_size, const Count_t grains_count) noexcept;
 
     /**
      * Pick a grain from the handful (request allocated memory).

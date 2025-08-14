@@ -1,7 +1,5 @@
 #include "grain/Sack.h"
 
-#include "grain/Handful.h"
-
 namespace grain
 {
 
