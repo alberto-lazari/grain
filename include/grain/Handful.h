@@ -13,12 +13,12 @@ public:
     using Count = std::uint8_t;
 
 private:
-    std::byte* grains {};
-    Count first_available_grain = 0;
-    Count available_grains = 0;
+    std::byte* _grains {};
+    Count _first_available_grain = 0;
+    Count _available_grains = 0;
 
 public:
-    static constexpr std::size_t HAND_CAPACITY = std::numeric_limits<Count>::max();
+    static constexpr std::size_t MAX_HAND_CAPACITY = std::numeric_limits<Count>::max();
 
     Handful() noexcept = default;
 
@@ -32,8 +32,8 @@ public:
     ~Handful();
 
 
-    constexpr bool is_empty() const noexcept { return available_grains <= 0; }
-    constexpr bool is_full() const noexcept { return available_grains >= HAND_CAPACITY; }
+    constexpr bool is_empty() const noexcept { return _available_grains <= 0; }
+    constexpr bool is_full() const noexcept { return _available_grains >= MAX_HAND_CAPACITY; }
 
     /**
      * Grab a handful of grains from the sack, ready to be distributed.

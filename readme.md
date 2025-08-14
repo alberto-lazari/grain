@@ -16,7 +16,7 @@ mapping each to a concrete item related to grains of wheat:
 
 | Name      | Analogy                                  | Original Name          |
 | --------- | ---------------------------------------- | ---------------------- |
-| `Silo`    | Main storage of different kinds of grain | `SmallObjectAllocator` |
+| `Granary` | Main storage of different kinds of grain | `SmallObjectAllocator` |
 | `Sack`    | Set of grains of the same kind (size)    | `FixedAllocator`       |
 | `Handful` | A small handful of grains                | `Chunk`                |
 | `Grain`   | Smallest distributable unit              | Memory block           |
