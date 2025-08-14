@@ -1,5 +1,7 @@
 #include "grain/Sack.h"
 
+#include <cassert>
+
 namespace grain
 {
 
@@ -17,13 +19,13 @@ void* Sack::pick() noexcept
         _pick_hand = _load.empty()
             ? grab_new_handful()
             : _load.data();
-        if (!_pick_hand) return nullptr;
+        assert(_pick_hand);
     }
 
     if (_pick_hand->is_empty())
     {
         _pick_hand = find_with_grains();
-        if (!_pick_hand) return nullptr;
+        assert(_pick_hand);
     }
 
     return _pick_hand->pick(_grain_size);
@@ -34,7 +36,7 @@ bool Sack::put_back(void* const grain) noexcept
     if (!_put_back_hand)
     {
         if (_pick_hand) _put_back_hand = _pick_hand;
-        else return false;
+        else assert(_put_back_hand = find_with_room());
     }
 
     if (_put_back_hand->is_full())
@@ -54,7 +56,7 @@ bool Sack::put_back(void* const grain) noexcept
         // Keep the full hand as last
         if (last != _put_back_hand) std::swap(*_put_back_hand, *last);
         // Search only if the full hand was already last
-        else if (!( _put_back_hand = find_with_room() )) return false;
+        else assert(_put_back_hand = find_with_room());
     }
 
     return _put_back_hand->put_back(grain, _grain_size);
