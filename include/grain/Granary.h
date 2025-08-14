@@ -1,7 +1,7 @@
 #pragma once
 
-#include "grain/constants.h"
 #include "grain/Sack.h"
+#include "grain/constants.h"
 
 #include <cassert>
 #include <cstddef>
