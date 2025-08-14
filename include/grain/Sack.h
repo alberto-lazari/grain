@@ -14,7 +14,7 @@ class Sack
 private:
     std::vector<Handful> load;
     std::size_t grain_size;
-    Handful::Count_t handful_size;
+    Handful::Count handful_size;
     Handful* pick_hand {};
     Handful* put_back_hand {};
 

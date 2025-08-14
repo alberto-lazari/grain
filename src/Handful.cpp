@@ -36,7 +36,7 @@ Handful::~Handful()
 }
 
 
-bool Handful::grab(const std::size_t grain_size, const Count_t grains_count) noexcept
+bool Handful::grab(const std::size_t grain_size, const Count grains_count) noexcept
 {
     if (grains_count > HAND_CAPACITY) return false;
 
@@ -51,7 +51,7 @@ bool Handful::grab(const std::size_t grain_size, const Count_t grains_count) noe
     std::size_t i = 0;
     for (std::byte* grain = grains; i < grains_count; grain += grain_size)
     {
-        *reinterpret_cast<Count_t*>(grain) = ++i;
+        *reinterpret_cast<Count*>(grain) = ++i;
     }
 
     return true;
@@ -64,7 +64,7 @@ void* Handful::pick(const std::size_t grain_size) noexcept
     std::byte* grain = grains + (first_available_grain * grain_size);
 
     // Next available grain is the one pointed by the first one
-    first_available_grain = *reinterpret_cast<Count_t*>(grain);
+    first_available_grain = *reinterpret_cast<Count*>(grain);
     --available_grains;
 
     return grain;
@@ -78,7 +78,7 @@ bool Handful::put_back(void* const grain, const std::size_t grain_size) noexcept
         return false;
 
     // Add grain to the head of the queue
-    *reinterpret_cast<Count_t*>(grain) = first_available_grain;
+    *reinterpret_cast<Count*>(grain) = first_available_grain;
     first_available_grain = grain_index;
     ++available_grains;
 
