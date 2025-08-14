@@ -1,5 +1,6 @@
 #pragma once
 
+#include "grain/constants.h"
 #include "grain/Sack.h"
 
 #include <cassert>
@@ -9,11 +10,12 @@
 namespace grain
 {
 
-template <std::size_t handful_size, std::size_t max_grain_size>
+template <std::size_t max_grain_size = DEFAULT_MAX_GRAIN_SIZE,
+          std::size_t handful_size = DEFAULT_HANDFUL_SIZE>
 class Granary
 {
 private:
-    using Self = Granary<handful_size, max_grain_size>;
+    using Self = Granary<max_grain_size, handful_size>;
 
     std::set<Sack> _stock;
     Sack* _pick_sack {};
