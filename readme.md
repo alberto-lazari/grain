@@ -28,3 +28,13 @@ mapping each to a concrete item related to grains of wheat:
 > This is a simple University project, aiming to replicate an existing implementation,
 > and is obviously not meant to appear in real-world codebases.
 > I just wanted to have some fun while working on it.
+
+
+## Build and Test
+
+The project comes with a cross-platform CMake configuration.
+You can build the project from the command line or open it as a folder in Visual Studio,
+leaving it to the IDE to automatically load the targets.
+
+Tests are split into separate executables that you can run from the CMake targets. \
+On POSIX you can run them all with a simple `make test`.
