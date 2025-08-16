@@ -30,6 +30,15 @@ public:
         return granary;
     };
 
+    /**
+     * @return true iff the grain was picked from this granary.
+     */
+    bool owns(void* const grain, const std::size_t size) const noexcept
+    {
+        const std::set<Sack>::const_iterator it = _stock.find(Sack(handful_size / size, size));
+        return it != _stock.end() && it->owns(grain);
+    }
+
     void* pick(const std::size_t grain_size) noexcept
     {
         // Fall back to system allocator for big objects

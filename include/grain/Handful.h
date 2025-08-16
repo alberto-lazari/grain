@@ -36,6 +36,11 @@ public:
     constexpr bool is_full() const noexcept { return _available_grains >= MAX_HAND_CAPACITY; }
 
     /**
+     * @return true iff the grain was picked from this handful.
+     */
+    bool owns(void* const grain, const std::size_t grain_size) const noexcept;
+
+    /**
      * Grab a handful of grains from the sack, ready to be distributed.
      */
     bool grab(const std::size_t grain_size, const Count grains_count) noexcept;
@@ -49,6 +54,12 @@ public:
      * Put a grain back into the handful for reuse (release memory).
      */
     bool put_back(void* const grain, const std::size_t grain_size) noexcept;
+
+private:
+    static constexpr bool is_in_hand(const std::ptrdiff_t grain_offset) noexcept
+    {
+        return grain_offset >= 0 && grain_offset < MAX_HAND_CAPACITY;
+    }
 };
 
 } // namespace grain

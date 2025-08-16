@@ -1,5 +1,6 @@
 #include "grain/Sack.h"
 
+#include <algorithm>
 #include <cassert>
 
 namespace grain
@@ -10,6 +11,12 @@ Sack::Sack(const std::size_t handful_capacity, const std::size_t grain_size) noe
     , _handful_capacity(handful_capacity < Handful::MAX_HAND_CAPACITY
             ? handful_capacity : Handful::MAX_HAND_CAPACITY)
 {
+}
+
+bool Sack::owns(void* const grain) const noexcept
+{
+    return std::any_of(_load.begin(), _load.end(),
+            [grain, this](const Handful& handful) { return handful.owns(grain, _grain_size); });
 }
 
 void* Sack::pick() noexcept

@@ -70,12 +70,18 @@ void* Handful::pick(const std::size_t grain_size) noexcept
     return grain;
 }
 
+bool Handful::owns(void* const grain, const std::size_t grain_size) const noexcept
+{
+    const std::ptrdiff_t grain_offset = (static_cast<std::byte*>(grain) - _grains) / grain_size;
+    return is_in_hand(grain_offset);
+}
+
 bool Handful::put_back(void* const grain, const std::size_t grain_size) noexcept
 {
-    const std::size_t grain_index = (static_cast<std::byte*>(grain) - _grains) / grain_size;
+    const std::ptrdiff_t grain_offset = (static_cast<std::byte*>(grain) - _grains) / grain_size;
+    if (is_full() || !is_in_hand(grain_offset)) return false;
 
-    const bool is_wrong_handful = grain < _grains || grain_index > MAX_HAND_CAPACITY;
-    if (is_full() || is_wrong_handful) return false;
+    const std::size_t grain_index = grain_offset;
 
     // Add grain to the head of the queue
     *reinterpret_cast<Count*>(grain) = _first_available_grain;
