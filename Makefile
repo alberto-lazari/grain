@@ -1,7 +1,7 @@
 BUILD_DIR := build
 
 # Default target.
-# Build project and produce dynamic library
+# Build project and produce static library
 lib: $(BUILD_DIR)
 	@cmake -S . -B "$(BUILD_DIR)"
 	@cmake --build "$(BUILD_DIR)" --target grain
