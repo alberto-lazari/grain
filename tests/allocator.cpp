@@ -1,6 +1,7 @@
 #include "grain.h"
 
 #include <cassert>
+#include <iostream>
 #include <map>
 #include <set>
 #include <string>
@@ -92,4 +93,8 @@ int main()
     test_simple_alloc_dealloc();
     test_stl_compliance();
     test_stl_containers();
+
+    std::cout << "Test passed!" << std::endl;
+
+    return 0;
 }

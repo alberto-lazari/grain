@@ -116,4 +116,8 @@ int main()
     test_multiple_allocations();
     test_vector();
     test_big_obj();
+
+    std::cout << "Test passed!" << std::endl;
+
+    return 0;
 }
