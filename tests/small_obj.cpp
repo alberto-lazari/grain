@@ -98,13 +98,13 @@ struct MixedCereals : grain::Grain
 
 void test_big_obj()
 {
-    MixedCereals* cereals = new MixedCereals({
+    MixedCereals* cereals = new MixedCereals {
         .product_id = 21387,
         .origin { "IT", "US", "ES" },
         .weight = 0.5f,
         .kcal = 2000.0f,
-        .ingredients = { "Rice, Wheat, Cereal, Chocolate, Sugar" },
-    });
+        .ingredients = "Rice, Wheat, Cereal, Chocolate, Sugar",
+    };
     assert(!TheGranary::reach().owns(cereals));
     delete cereals;
 }
