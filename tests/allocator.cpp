@@ -8,8 +8,8 @@
 
 void test_simple_alloc_dealloc()
 {
-    int* p = grain::Allocator<int>::allocate(1);
-    grain::Allocator<int>::deallocate(p, 1);
+    int* p = grain::Allocator<int>::allocate();
+    grain::Allocator<int>::deallocate(p);
 }
 
 void test_stl_compliance()
