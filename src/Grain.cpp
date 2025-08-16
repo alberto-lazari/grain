@@ -9,7 +9,9 @@ using TheGranary = Granary<>;
 
 void* Grain::operator new(const std::size_t grain_size)
 {
-    return TheGranary::reach().pick(grain_size);
+    void* const p = TheGranary::reach().pick(grain_size);
+    if (!p) throw std::bad_alloc();
+    return p;
 }
 
 void Grain::operator delete(void* const grain, const std::size_t size) noexcept
