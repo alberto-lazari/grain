@@ -32,6 +32,27 @@ void test_simple_alloc_dealloc()
     delete w;
 }
 
+void test_array()
+{
+    Wheat* small = new Wheat {
+        .product_id = 1,
+        .origin = "FR",
+        .weight = 0.25f,
+        .kcal = 500.0f,
+    };
+    Wheat* large = new Wheat {
+        .product_id = 2,
+        .origin = "US",
+        .weight = 1.0f,
+        .kcal = 2500.0f,
+    };
+    assert(TheGranary::reach().owns(small));
+    assert(TheGranary::reach().owns(large));
+
+    Wheat* packs = new Wheat[2] { *small, *large };
+    assert(!TheGranary::reach().owns(packs));
+}
+
 void test_multiple_allocations()
 {
     Wheat* bag[10];
@@ -66,9 +87,35 @@ void test_vector()
     for (Wheat* w : bag) delete w;
 }
 
+
+struct MixedCereals : grain::Grain
+{
+    unsigned product_id;
+    char origin[3][64];
+    float weight;
+    float kcal;
+    char ingredients[4096];
+};
+
+void test_big_obj()
+{
+    MixedCereals tmp = {
+        .product_id = 21387,
+        .origin { "IT", "US", "ES" },
+        .weight = 0.5f,
+        .kcal = 2000.0f,
+        .ingredients = { "Rice, Wheat, Cereal, Chocolate, Sugar" },
+    };
+    MixedCereals* cereals = new MixedCereals(tmp);
+    assert(!TheGranary::reach().owns(cereals));
+    delete cereals;
+}
+
 int main()
 {
     test_simple_alloc_dealloc();
+    test_array();
     test_multiple_allocations();
     test_vector();
+    test_big_obj();
 }
