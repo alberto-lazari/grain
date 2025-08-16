@@ -1,7 +1,7 @@
 #pragma once
 
-#include "grain/Sack.h"
-#include "grain/defaults.h"
+#include "Sack.h"
+#include "defaults.h"
 
 #include <cassert>
 #include <cstddef>
@@ -49,7 +49,7 @@ public:
         if (grain_size == 0) return nullptr;
 
         // Fall back to system allocator for big objects
-        if (grain_size > max_grain_size) return ::operator new(grain_size);
+        if (grain_size > max_grain_size) return std::malloc(grain_size);
 
         if (!_pick_sack || _pick_sack->grain_size() != grain_size)
         {
@@ -66,7 +66,7 @@ public:
         // Fall back to system allocator for big objects
         if (size > max_grain_size)
         {
-            ::operator delete(grain);
+            std::free(grain);
             return true;
         }
 

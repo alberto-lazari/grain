@@ -39,6 +39,7 @@ Handful::~Handful()
 bool Handful::grab(const std::size_t grain_size, const Count grains_count) noexcept
 {
     if (grains_count > MAX_HAND_CAPACITY) return false;
+    if (_grains) delete[] _grains;
 
     _grains = new (std::nothrow) std::byte[grain_size * grains_count];
 

@@ -1,3 +1,5 @@
+#pragma once
+
 #include <cstddef>
 #include <limits>
 #include <new>
@@ -7,6 +9,7 @@ namespace grain
 {
 
 void* Malloc(const std::size_t size) noexcept;
+bool Free(void* const p) noexcept;
 bool Free(void* const p, const std::size_t size) noexcept;
 
 template <typename T, typename... Args>

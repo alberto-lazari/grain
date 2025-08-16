@@ -1,7 +1,7 @@
 #pragma once
 
-#include "grain/Granary.h"
-#include "grain/defaults.h"
+#include "Granary.h"
+#include "defaults.h"
 
 #include <cassert>
 #include <cstddef>
