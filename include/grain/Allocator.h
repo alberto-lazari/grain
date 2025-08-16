@@ -46,13 +46,13 @@ struct Allocator
     /**
      * Non-standard noexcept allocation.
      */
-    static pointer _allocate_nothrow(const size_type n) noexcept
+    static pointer _allocate_nothrow(const size_type n = 1) noexcept
     {
         void* const p = TheGranary::reach().pick(sizeof(value_type) * n);
         return static_cast<pointer>(p);
     }
 
-    static pointer allocate(const size_type n)
+    static pointer allocate(const size_type n = 1)
     {
         if (n > max_size()) throw std::bad_array_new_length();
 
@@ -61,7 +61,7 @@ struct Allocator
         return static_cast<pointer>(p);
     }
 
-    static void deallocate(const pointer p, const size_type n) noexcept
+    static void deallocate(const pointer p, const size_type n = 1) noexcept
     {
         const bool all_well = TheGranary::reach().put_back(p, sizeof(value_type) * n);
         assert(all_well);

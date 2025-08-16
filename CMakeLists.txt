@@ -11,6 +11,12 @@ file(GLOB TEST_SOURCES CONFIGURE_DEPENDS tests/*.cpp)
 # Create shared library
 add_library(grain STATIC ${GRAIN_SOURCES})
 
+if (MSVC)
+    target_compile_options(grain PRIVATE /permissive- /W4)
+else()
+    target_compile_options(grain PRIVATE -pedantic -Wall -Wextra -Werror)
+endif()
+
 # Public headers for install/include path
 target_include_directories(grain PUBLIC ${PROJECT_SOURCE_DIR}/include)
 

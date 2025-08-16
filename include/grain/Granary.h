@@ -39,6 +39,9 @@ public:
         return it != _stock.end() && it->owns(grain);
     }
 
+    template <typename T>
+    bool owns(T* const grain) const noexcept { return owns(grain, sizeof(T)); }
+
     void* pick(const std::size_t grain_size) noexcept
     {
         // Fall back to system allocator for big objects

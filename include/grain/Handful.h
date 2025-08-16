@@ -18,7 +18,7 @@ private:
     Count _available_grains = 0;
 
 public:
-    static constexpr std::size_t MAX_HAND_CAPACITY = std::numeric_limits<Count>::max();
+    static constexpr Count MAX_HAND_CAPACITY = std::numeric_limits<Count>::max();
 
     Handful() noexcept = default;
 
