@@ -71,11 +71,11 @@ public:
 
 private:
     /**
-     * Get a mutable pointer from a const iterator.
+     * Get a mutable pointer from a set iterator.
      *
      * I know, I know, this is ugly and I should not do it,
-     * however, std::set only returns const iterators,
-     * because it has to guarantee that keys will not break the order and bla bla bla...
+     * however, std::set iterators only const references,
+     * because they have to guarantee that keys will not break the order and bla bla bla...
      * Now, let me tell you that the key (Sack) is ordered by comparing `grain_size`,
      * which is declared const and will remain const happily ever after!!
      * (that is, unless I sneaked a const_cast somewhere else...)
@@ -86,10 +86,7 @@ private:
      * (btw, I know I could store a unique_ptr and use a custom comparator,
      *  but I just don't feel like rewriting this mess right now)
      */
-    Sack* open(std::set<Sack>::const_iterator it) const noexcept
-    {
-        return const_cast<Sack*>(&*it);
-    }
+    static Sack* open(std::set<Sack>::iterator it) noexcept { return const_cast<Sack*>(&*it); }
 
     Sack* fill_new_sack(const std::size_t grain_size) noexcept
     {
@@ -99,7 +96,7 @@ private:
 
     Sack* find_right_sack(const std::size_t grain_size) noexcept
     {
-        auto it = _stock.find(Sack(handful_size / grain_size, grain_size));
+        std::set<Sack>::iterator it = _stock.find(Sack(handful_size / grain_size, grain_size));
         return it != _stock.end() ? open(it) : nullptr;
     }
 };
