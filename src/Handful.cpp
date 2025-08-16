@@ -50,16 +50,14 @@ bool Handful::grab(const std::size_t grain_size, const Count grains_count) noexc
     // Initialize blocks to point the next available one
     std::size_t i = 0;
     for (std::byte* grain = _grains; i < grains_count; grain += grain_size)
-    {
         *reinterpret_cast<Count*>(grain) = ++i;
-    }
 
     return true;
 }
 
 void* Handful::pick(const std::size_t grain_size) noexcept
 {
-    if (!_available_grains) return nullptr;
+    if (!_available_grains || grain_size == 0) return nullptr;
 
     std::byte* grain = _grains + (_first_available_grain * grain_size);
 
@@ -72,12 +70,16 @@ void* Handful::pick(const std::size_t grain_size) noexcept
 
 bool Handful::owns(void* const grain, const std::size_t grain_size) const noexcept
 {
+    if (grain_size == 0) return false;
+
     const std::ptrdiff_t grain_offset = (static_cast<std::byte*>(grain) - _grains) / grain_size;
     return is_in_hand(grain_offset);
 }
 
 bool Handful::put_back(void* const grain, const std::size_t grain_size) noexcept
 {
+    if (grain_size == 0) return false;
+
     const std::ptrdiff_t grain_offset = (static_cast<std::byte*>(grain) - _grains) / grain_size;
     if (is_full() || !is_in_hand(grain_offset)) return false;
 

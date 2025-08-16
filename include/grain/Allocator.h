@@ -6,6 +6,7 @@
 #include <cassert>
 #include <cstddef>
 #include <limits>
+#include <new>
 
 namespace grain
 {
@@ -49,16 +50,17 @@ struct Allocator
     static pointer _allocate_nothrow(const size_type n = 1) noexcept
     {
         void* const p = TheGranary::reach().pick(sizeof(value_type) * n);
-        return static_cast<pointer>(p);
+        return reinterpret_cast<pointer>(p);
     }
 
     static pointer allocate(const size_type n = 1)
     {
+        if (n == 0) return nullptr;
         if (n > max_size()) throw std::bad_array_new_length();
 
         void* const p = TheGranary::reach().pick(sizeof(value_type) * n);
         if (!p) throw std::bad_alloc();
-        return static_cast<pointer>(p);
+        return reinterpret_cast<pointer>(p);
     }
 
     static void deallocate(const pointer p, const size_type n = 1) noexcept

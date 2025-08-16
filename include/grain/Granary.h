@@ -35,6 +35,8 @@ public:
      */
     bool owns(void* const grain, const std::size_t size) const noexcept
     {
+        if (size == 0) return false;
+
         const std::set<Sack>::const_iterator it = _stock.find(Sack(handful_size / size, size));
         return it != _stock.end() && it->owns(grain);
     }
@@ -44,6 +46,8 @@ public:
 
     void* pick(const std::size_t grain_size) noexcept
     {
+        if (grain_size == 0) return nullptr;
+
         // Fall back to system allocator for big objects
         if (grain_size > max_grain_size) return ::operator new(grain_size);
 
@@ -69,7 +73,7 @@ public:
         if (!_put_back_sack || _put_back_sack->grain_size() != size)
         {
             _put_back_sack = find_right_sack(size);
-            assert(_put_back_sack != nullptr);
+            if (!_put_back_sack) return false;
         }
 
         return _put_back_sack->put_back(grain);

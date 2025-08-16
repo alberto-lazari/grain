@@ -117,7 +117,7 @@ int main()
     test_vector();
     test_big_obj();
 
-    std::cout << "Test passed!" << std::endl;
+    std::cout << "Test passed\n";
 
     return 0;
 }

@@ -94,7 +94,7 @@ int main()
     test_stl_compliance();
     test_stl_containers();
 
-    std::cout << "Test passed!" << std::endl;
+    std::cout << "Test passed\n";
 
     return 0;
 }
