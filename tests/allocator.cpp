@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 
-// Allocator
 void test_simple_alloc_dealloc()
 {
     int* p = grain::Allocator<int>::allocate(1);
@@ -88,12 +87,9 @@ void test_stl_containers()
     assert(s.count(10) == 1);
 }
 
-
 int main()
 {
     test_simple_alloc_dealloc();
     test_stl_compliance();
     test_stl_containers();
-
-    return 0;
 }

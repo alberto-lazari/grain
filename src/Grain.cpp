@@ -1,6 +1,7 @@
 #include "grain/Grain.h"
-
 #include "grain/Granary.h"
+
+#include <cassert>
 
 namespace grain
 {
@@ -16,7 +17,8 @@ void* Grain::operator new(const std::size_t grain_size)
 
 void Grain::operator delete(void* const grain, const std::size_t size) noexcept
 {
-    TheGranary::reach().put_back(grain, size);
+    bool all_well = TheGranary::reach().put_back(grain, size);
+    assert(all_well);
 }
 
 } // namespace grain

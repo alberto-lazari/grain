@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Automatically scan for sources
 file(GLOB GRAIN_SOURCES CONFIGURE_DEPENDS src/*.cpp)
+file(GLOB TEST_SOURCES CONFIGURE_DEPENDS tests/*.cpp)
 
 # Create shared library
 add_library(grain STATIC ${GRAIN_SOURCES})
@@ -13,13 +14,29 @@ add_library(grain STATIC ${GRAIN_SOURCES})
 # Public headers for install/include path
 target_include_directories(grain PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
-# Test executable
-add_executable(grain_test tests/main.cpp)
-target_link_libraries(grain_test PRIVATE grain)
 
-# Cross-platform test target
+# Tests
+set(TEST_EXECUTABLES)
+foreach(test_src ${TEST_SOURCES})
+    get_filename_component(test_name ${test_src} NAME_WE)
+
+    # Create an executable per test source
+    add_executable(test_${test_name} ${test_src})
+    target_link_libraries(test_${test_name} PRIVATE grain)
+
+    # Add to list
+    list(APPEND TEST_EXECUTABLES test_${test_name})
+endforeach()
+
+# Run all tests
 add_custom_target(test
-  COMMAND grain_test
-  DEPENDS grain_test
-  WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+    COMMENT "Running all tests..."
 )
+
+foreach(test_exe ${TEST_EXECUTABLES})
+    add_custom_command(TARGET test
+        POST_BUILD
+        COMMAND $<TARGET_FILE:${test_exe}>
+        COMMENT "Running ${test_exe}"
+    )
+endforeach()
