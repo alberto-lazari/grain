@@ -17,7 +17,12 @@ else()
     # Clang/GCC need this explicit flag to use ::operator delete(void*, std::size_t),
     # instead of the unsized version ::operator delete(void*)
     add_compile_options(-fsized-deallocation)
+
     add_compile_options(-pedantic -Wall -Wextra)
+
+    # Use ASan for memory leaks
+    add_compile_options(-fsanitize=address -fno-omit-frame-pointer)
+    add_link_options(-fsanitize=address)
 endif()
 
 # Public headers for install/include path
@@ -45,7 +50,7 @@ add_custom_target(test
 foreach(test_exe ${TEST_EXECUTABLES})
     add_custom_command(TARGET test
         POST_BUILD
-        COMMAND $<TARGET_FILE:${test_exe}>
+        COMMAND MallocNanoZone=0 $<TARGET_FILE:${test_exe}>
         COMMENT "Running ${test_exe}"
     )
 endforeach()

@@ -37,7 +37,7 @@ struct Eq
 static std::unordered_set<Allocation, Hash, Eq, grain::SystemAllocator<Allocation>> allocations;
 
 #define CASE_NEW(SIZE) case SIZE: \
-    allocations.emplace(new Object<SIZE>(), SIZE); \
+    allocations.emplace(new Object<SIZE>, SIZE); \
     break;
 
 void new_obj()
