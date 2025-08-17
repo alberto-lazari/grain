@@ -101,12 +101,12 @@ void delete_obj()
     }
 }
 
-void benchmark(const long long iterations)
+void benchmark(const long long iterations, const bool sequential = false)
 {
     for (long long i = 0; i < iterations; ++i)
     {
         const bool allocate = rand() % 2;
-        if (allocations.empty() || allocate) new_obj();
+        if (sequential || allocations.empty() || allocate) new_obj();
         else delete_obj();
     }
 
@@ -121,7 +121,7 @@ void run(const long long seed, const long long iterations)
 
     auto start = std::chrono::high_resolution_clock::now();
 
-    benchmark(iterations);
+    benchmark(iterations, seed == 0LL ? true : false);
 
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start;
@@ -131,9 +131,9 @@ void run(const long long seed, const long long iterations)
 
 int main()
 {
-    constexpr std::size_t seed_count = 3;
-    long long seeds[seed_count] { 3127344003LL, 1878122349LL, 4119109763LL };
-    long long iterations[seed_count] { 100'000LL, 1'000'000LL, 2'000'000LL };
+    constexpr std::size_t seed_count = 4;
+    long long seeds[seed_count] { 3127344003LL, 1878122349LL, 4119109763LL, 0LL };
+    long long iterations[seed_count] { 100'000LL, 1'000'000LL, 2'000'000LL, 50'000LL };
     for (std::size_t i = 0; i < seed_count; ++i) run(seeds[i], iterations[i]);
 
     return 0;
