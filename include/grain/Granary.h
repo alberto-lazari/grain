@@ -65,6 +65,8 @@ public:
 
     bool put_back(void* const grain, const std::size_t size) noexcept
     {
+        if (!grain) return true;
+
         // Fall back to system allocator for big objects
         if (size > max_grain_size)
         {

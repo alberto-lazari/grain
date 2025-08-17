@@ -31,7 +31,8 @@ T* New(Args&&... args)
 template <typename T>
 bool Delete(T* const p) noexcept
 {
-    if (!p) return false;
+    // It's  okay to delete nullptr, just do nothing
+    if (!p) return true;
 
     p->~T();
     return Free(p, sizeof(T));
@@ -107,7 +108,7 @@ T* New_Array(const std::nothrow_t&, const std::size_t count, Args&&... args) noe
 template <typename T>
 bool Delete_Array(T* const p) noexcept
 {
-    if (!p) return false;
+    if (!p) return true;
 
     // Recover count from size, stored before the data
     std::size_t* const size_ptr = reinterpret_cast<std::size_t*>(p) - 1;

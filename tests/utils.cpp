@@ -77,7 +77,7 @@ void test_zero_length_array()
 {
     int* const arr = grain::New_Array<int>(0);
     assert(arr == nullptr);
-    assert(grain::Delete_Array(arr) == false);
+    assert(grain::Delete_Array(arr));
 }
 
 void test_bad_alloc()

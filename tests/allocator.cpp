@@ -45,6 +45,9 @@ void test_stl_compliance()
     assert(a3 == a);
 
     A a4(std::move(b));
+
+    // This should be fine and raise no exception or cause runtime errors
+    a.deallocate(nullptr);
 }
 
 template <typename IntAllocator, typename CharAllocator, typename PairAllocator>

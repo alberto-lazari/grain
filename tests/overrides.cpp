@@ -50,12 +50,20 @@ void test_new_array_nothrow()
     delete[] arr;
 }
 
+void test_delete_nullptr()
+{
+    int* const p {};
+    assert(p == nullptr);
+    delete p;
+}
+
 int main()
 {
     test_new();
     test_new_nothrow();
     test_new_array();
     test_new_array_nothrow();
+    test_delete_nullptr();
 
     std::cout << "Test passed\n";
 
