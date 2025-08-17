@@ -9,7 +9,7 @@ struct S
 {
     int x;
 
-    S(int x_) : x(x_)
+    S(int x_ = -1) : x(x_)
     {
     }
 };
@@ -18,6 +18,13 @@ void test_new()
 {
     S* const s = new S(42);
     assert(s->x == 42);
+    delete s;
+}
+
+void test_new_default()
+{
+    S* const s = new S();
+    assert(s->x == -1);
     delete s;
 }
 
@@ -60,6 +67,7 @@ void test_delete_nullptr()
 int main()
 {
     test_new();
+    test_new_default();
     test_new_nothrow();
     test_new_array();
     test_new_array_nothrow();
