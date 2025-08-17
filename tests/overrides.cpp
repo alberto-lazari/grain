@@ -52,11 +52,10 @@ void test_new_array_nothrow()
 
 int main()
 {
-    // TODO: fix infinite recursion
     test_new();
-    // test_new_nothrow();
-    // test_new_array();
-    // test_new_array_nothrow();
+    test_new_nothrow();
+    test_new_array();
+    test_new_array_nothrow();
 
     std::cout << "Test passed\n";
 
