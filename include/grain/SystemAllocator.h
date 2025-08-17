@@ -9,6 +9,9 @@ namespace grain
 
 /**
  * STL-compliant allocator using the malloc/free for the underlying management.
+ *
+ * It is required for STL containers that use new/delete internally and would otherwise collide
+ * with custom global overrides, resulting in infinite loops during grain system initialization.
  */
 template <typename T>
 struct SystemAllocator
