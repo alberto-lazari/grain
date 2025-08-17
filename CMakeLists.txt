@@ -14,7 +14,7 @@ add_library(grain STATIC ${GRAIN_SOURCES})
 if (MSVC)
     target_compile_options(grain PRIVATE /permissive- /W4)
 else()
-    target_compile_options(grain PRIVATE -pedantic -Wall -Wextra -Werror)
+    target_compile_options(grain PRIVATE -pedantic -fsized-deallocation -Wall -Wextra -Werror)
 endif()
 
 # Public headers for install/include path

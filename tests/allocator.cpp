@@ -29,8 +29,8 @@ void test_stl_compliance()
 
     typename A::void_pointer vp = p;
     typename A::const_void_pointer cvp = cp;
-    assert(static_cast<A::pointer>(vp) == p);
-    assert(static_cast<A::const_pointer>(cvp) == cp);
+    assert(reinterpret_cast<A::pointer>(vp) == p);
+    assert(reinterpret_cast<A::const_pointer>(cvp) == cp);
 
     a.deallocate(p, n);
 

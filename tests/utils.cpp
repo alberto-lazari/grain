@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include <iostream>
+#include <new>
 #include <stdexcept>
 
 struct S
@@ -40,7 +41,7 @@ void test_single_object()
 
 void test_single_object_nothrow()
 {
-    S* const p = grain::New_Nothrow<S>(123);
+    S* const p = grain::New<S>(std::nothrow, 123);
     assert(p != nullptr);
     assert(p->x == 123);
     assert(grain::Delete(p));
@@ -90,6 +91,8 @@ void test_bad_alloc()
     {
         // Expected
     }
+
+    assert(!grain::New_Array<int>(std::nothrow, -1));
 }
 
 int main() {

@@ -73,7 +73,8 @@ bool Handful::owns(void* const grain, const std::size_t grain_size) const noexce
 {
     if (grain_size == 0) return false;
 
-    const std::ptrdiff_t grain_offset = (static_cast<std::byte*>(grain) - _grains) / grain_size;
+    const std::ptrdiff_t grain_offset =
+        (reinterpret_cast<std::byte*>(grain) - _grains) / grain_size;
     return is_in_hand(grain_offset);
 }
 
@@ -81,7 +82,8 @@ bool Handful::put_back(void* const grain, const std::size_t grain_size) noexcept
 {
     if (grain_size == 0) return false;
 
-    const std::ptrdiff_t grain_offset = (static_cast<std::byte*>(grain) - _grains) / grain_size;
+    const std::ptrdiff_t grain_offset =
+        (reinterpret_cast<std::byte*>(grain) - _grains) / grain_size;
     if (is_full() || !is_in_hand(grain_offset)) return false;
 
     const std::size_t grain_index = grain_offset;
