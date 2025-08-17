@@ -1,10 +1,12 @@
 #pragma once
 
 #include "Sack.h"
+#include "SystemAllocator.h"
 #include "defaults.h"
 
 #include <cassert>
 #include <cstddef>
+#include <cstdlib>
 #include <set>
 
 namespace grain
@@ -17,7 +19,7 @@ class Granary
 private:
     using Self = Granary<max_grain_size, handful_size>;
 
-    std::set<Sack> _stock;
+    std::set<Sack, std::less<>, SystemAllocator<Sack>> _stock;
     Sack* _pick_sack {};
     Sack* _put_back_sack {};
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Handful.h"
+#include "SystemAllocator.h"
 
 #include <cstddef>
 #include <vector>
@@ -14,7 +15,7 @@ private:
     const std::size_t _grain_size;
     const Handful::Count _handful_capacity;
 
-    std::vector<Handful> _load;
+    std::vector<Handful, SystemAllocator<Handful>> _load;
     Handful* _pick_hand {};
     Handful* _put_back_hand {};
 

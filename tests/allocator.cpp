@@ -13,23 +13,22 @@ void test_simple_alloc_dealloc()
     grain::Allocator<int>::deallocate(p);
 }
 
+template <typename A, typename B>
 void test_stl_compliance()
 {
-    using T = int;
-    using A = grain::Allocator<T>;
     const A a;
-    constexpr A::size_type n = 5;
+    constexpr typename A::size_type n = 5;
 
-    const A::size_type max_size = a.max_size();
-    assert(sizeof(A::value_type) * n <= max_size);
+    const typename A::size_type max_size = a.max_size();
+    assert(sizeof(typename A::value_type) * n <= max_size);
 
-    A::pointer p = a.allocate(n);
-    A::const_pointer cp = p;
-    A::value_type& r = *p;
-    const A::value_type& cr = *cp;
+    typename A::pointer p = a.allocate(n);
+    typename A::const_pointer cp = p;
+    typename A::value_type& r = *p;
+    const typename A::value_type& cr = *cp;
 
-    A::void_pointer vp = p;
-    A::const_void_pointer cvp = cp;
+    typename A::void_pointer vp = p;
+    typename A::const_void_pointer cvp = cp;
     assert(static_cast<A::pointer>(vp) == p);
     assert(static_cast<A::const_pointer>(cvp) == cp);
 
@@ -38,8 +37,6 @@ void test_stl_compliance()
     A a1(a);
     assert(a1 == a);
 
-    using U = char;
-    using B = grain::Allocator<U>;
     B b;
     A a2(b);
     assert(B(a) == b && A(b) == a);
@@ -50,23 +47,22 @@ void test_stl_compliance()
     A a4(std::move(b));
 }
 
+template <typename IntAllocator, typename CharAllocator, typename PairAllocator>
 void test_stl_containers()
 {
     // Vector
-    std::vector<int, grain::Allocator<int>> vec;
+    std::vector<int, IntAllocator> vec;
     for (int i = 0; i < 100; ++i) vec.push_back(i);
     assert(vec.size() == 100);
     assert(vec[42] == 42);
 
     // String
-    std::basic_string<char, std::char_traits<char>, grain::Allocator<char>> str = "hello";
+    std::basic_string<char, std::char_traits<char>, CharAllocator> str = "hello";
     str += " world";
     assert(str == "hello world");
 
     // Map
-    std::map<std::string, int,
-             std::less<std::string>,
-             grain::Allocator<std::pair<const std::string, int>>> m;
+    std::map<std::string, int, std::less<std::string>, PairAllocator> m;
 
     m["one"] = 1;
     m["two"] = 2;
@@ -76,9 +72,7 @@ void test_stl_containers()
     assert(m.at("two") == 2);
 
     // Set
-    std::set<int,
-             std::less<int>,
-             grain::Allocator<int>> s;
+    std::set<int, std::less<int>, IntAllocator> s;
 
     s.insert(10);
     s.insert(20);
@@ -88,11 +82,17 @@ void test_stl_containers()
     assert(s.count(10) == 1);
 }
 
+#define TEST_STL(Allocator) \
+    test_stl_compliance<Allocator<int>, Allocator<char>>(); \
+    test_stl_containers<Allocator<int>, Allocator<char>, \
+                        Allocator<std::pair<const std::string, int>>>()
+
 int main()
 {
     test_simple_alloc_dealloc();
-    test_stl_compliance();
-    test_stl_containers();
+
+    TEST_STL(grain::Allocator);
+    TEST_STL(grain::SystemAllocator);
 
     std::cout << "Test passed\n";
 

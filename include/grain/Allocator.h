@@ -70,7 +70,7 @@ struct Allocator
     }
 
     template <typename U>
-    constexpr bool operator==(const Allocator<U>& other) const noexcept { return true; }
+    constexpr bool operator==(const Allocator<U>&) const noexcept { return true; }
 
     template <typename U>
     constexpr bool operator!=(const Allocator<U>& other) const noexcept
