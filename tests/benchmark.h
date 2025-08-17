@@ -10,6 +10,9 @@
 #include <unordered_set>
 #include <utility>
 
+// Assume minimum alignment in objects
+constexpr std::size_t min_alignment = 2;
+
 template <std::size_t size>
 struct Object { std::byte data[size]; };
 
@@ -42,15 +45,22 @@ void new_obj()
     const std::size_t size = (rand() % 16) + 1;
     switch (size)
     {
-        CASE_NEW(1)
-        CASE_NEW(2)
-        CASE_NEW(4)
-        CASE_NEW(6)
-        CASE_NEW(8)
-        CASE_NEW(10)
-        CASE_NEW(12)
-        CASE_NEW(14)
-        CASE_NEW(16)
+        CASE_NEW(1 * min_alignment)
+        CASE_NEW(2 * min_alignment)
+        CASE_NEW(3 * min_alignment)
+        CASE_NEW(4 * min_alignment)
+        CASE_NEW(5 * min_alignment)
+        CASE_NEW(6 * min_alignment)
+        CASE_NEW(7 * min_alignment)
+        CASE_NEW(8 * min_alignment)
+        CASE_NEW(9 * min_alignment)
+        CASE_NEW(10 * min_alignment)
+        CASE_NEW(11 * min_alignment)
+        CASE_NEW(12 * min_alignment)
+        CASE_NEW(13 * min_alignment)
+        CASE_NEW(14 * min_alignment)
+        CASE_NEW(15 * min_alignment)
+        CASE_NEW(16 * min_alignment)
         default: return;
     }
 }
@@ -71,15 +81,22 @@ void delete_obj()
 
     switch (size)
     {
-        CASE_DELETE(1)
-        CASE_DELETE(2)
-        CASE_DELETE(4)
-        CASE_DELETE(6)
-        CASE_DELETE(8)
-        CASE_DELETE(10)
-        CASE_DELETE(12)
-        CASE_DELETE(14)
-        CASE_DELETE(16)
+        CASE_DELETE(1 * min_alignment)
+        CASE_DELETE(2 * min_alignment)
+        CASE_DELETE(3 * min_alignment)
+        CASE_DELETE(4 * min_alignment)
+        CASE_DELETE(5 * min_alignment)
+        CASE_DELETE(6 * min_alignment)
+        CASE_DELETE(7 * min_alignment)
+        CASE_DELETE(8 * min_alignment)
+        CASE_DELETE(9 * min_alignment)
+        CASE_DELETE(10 * min_alignment)
+        CASE_DELETE(11 * min_alignment)
+        CASE_DELETE(12 * min_alignment)
+        CASE_DELETE(13 * min_alignment)
+        CASE_DELETE(14 * min_alignment)
+        CASE_DELETE(15 * min_alignment)
+        CASE_DELETE(16 * min_alignment)
         default: return;
     }
 }
@@ -116,7 +133,7 @@ int main()
 {
     constexpr std::size_t seed_count = 3;
     long long seeds[seed_count] { 3127344003LL, 1878122349LL, 4119109763LL };
-    long long iterations[seed_count] { 100'000LL, 1'000'000LL, 10'000'000LL };
+    long long iterations[seed_count] { 100'000LL, 1'000'000LL, 2'000'000LL };
     for (std::size_t i = 0; i < seed_count; ++i) run(seeds[i], iterations[i]);
 
     return 0;
