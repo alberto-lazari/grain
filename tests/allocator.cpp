@@ -25,7 +25,9 @@ void test_stl_compliance()
     typename A::pointer p = a.allocate(n);
     typename A::const_pointer cp = p;
     typename A::value_type& r = *p;
+    (void)r;
     const typename A::value_type& cr = *cp;
+    (void)cr;
 
     typename A::void_pointer vp = p;
     typename A::const_void_pointer cvp = cp;
@@ -39,12 +41,13 @@ void test_stl_compliance()
 
     B b;
     A a2(b);
-    assert(B(a) == b && A(b) == a);
+    assert(a2 == a && B(a) == b);
 
     A a3(std::move(a));
     assert(a3 == a);
 
     A a4(std::move(b));
+    assert(a4 == a);
 
     // This should be fine and raise no exception or cause runtime errors
     a.deallocate(nullptr);

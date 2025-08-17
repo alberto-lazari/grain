@@ -3,7 +3,6 @@
 #include "utils.h"
 
 #include <cassert>
-#include <iostream>
 #include <new>
 
 #ifdef GRAIN_HARVEST_MODE
@@ -19,13 +18,13 @@ void* operator new(const std::size_t size)
     throw std::bad_alloc();
 }
 
-void operator delete(void* const p) noexcept
+void operator delete(void* const) noexcept
 {
-    // TODO: force the compiler to call the sized version
-    std::cerr << "Warning: custom '::operator delete(void*)' does nothing" << std::endl;
+    constexpr bool ok = true;
+    assert(!ok && "using unsized delete, cannot determine size");
 }
 
-void operator delete(void* const p, const std::size_t size) noexcept { grain::Free(p, size); }
+void operator delete(void* const p, std::size_t size) noexcept { grain::Free(p, size); }
 
 
 void* operator new[](const std::size_t size, const std::nothrow_t&) noexcept

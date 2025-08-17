@@ -40,7 +40,7 @@ void test_new_array()
     constexpr std::size_t n = 5;
     S* const arr = new S[n] { 1, 2, 3, 4, 5 };
     for (std::size_t i = 0; i < n; ++i)
-        assert(arr[i].x == i + 1);
+        assert(arr[i].x == static_cast<int>(i + 1));
 
     delete[] arr;
 }
@@ -52,7 +52,7 @@ void test_new_array_nothrow()
     assert(arr);
 
     for (std::size_t i = 0; i < n; ++i)
-        assert(arr[i].x == (i + 1) * 10);
+        assert(arr[i].x == static_cast<int>((i + 1) * 10));
 
     delete[] arr;
 }
