@@ -14,7 +14,10 @@ add_library(grain STATIC ${GRAIN_SOURCES})
 if(MSVC)
     add_compile_options(/permissive- /W4)
 else()
-    add_compile_options(-fsized-deallocation -pedantic -Wall -Wextra)
+    # Clang/GCC need this explicit flag to use ::operator delete(void*, std::size_t),
+    # instead of the unsized version ::operator delete(void*)
+    add_compile_options(-fsized-deallocation)
+    add_compile_options(-pedantic -Wall -Wextra)
 endif()
 
 # Public headers for install/include path
