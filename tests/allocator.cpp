@@ -1,7 +1,5 @@
-#include "grain.h"
+#include "test.h"
 
-#include <cassert>
-#include <iostream>
 #include <map>
 #include <set>
 #include <string>
@@ -20,7 +18,7 @@ void test_stl_compliance()
     constexpr typename A::size_type n = 5;
 
     const typename A::size_type max_size = a.max_size();
-    assert(sizeof(typename A::value_type) * n <= max_size);
+    TEST_ASSERT(sizeof(typename A::value_type) * n <= max_size);
 
     typename A::pointer p = a.allocate(n);
     typename A::const_pointer cp = p;
@@ -31,23 +29,23 @@ void test_stl_compliance()
 
     typename A::void_pointer vp = p;
     typename A::const_void_pointer cvp = cp;
-    assert(reinterpret_cast<A::pointer>(vp) == p);
-    assert(reinterpret_cast<A::const_pointer>(cvp) == cp);
+    TEST_ASSERT(reinterpret_cast<A::pointer>(vp) == p);
+    TEST_ASSERT(reinterpret_cast<A::const_pointer>(cvp) == cp);
 
     a.deallocate(p, n);
 
     A a1(a);
-    assert(a1 == a);
+    TEST_ASSERT(a1 == a);
 
     B b;
     A a2(b);
-    assert(a2 == a && B(a) == b);
+    TEST_ASSERT(a2 == a && B(a) == b);
 
     A a3(std::move(a));
-    assert(a3 == a);
+    TEST_ASSERT(a3 == a);
 
     A a4(std::move(b));
-    assert(a4 == a);
+    TEST_ASSERT(a4 == a);
 
     // This should be fine and raise no exception or cause runtime errors
     a.deallocate(nullptr);
@@ -59,13 +57,13 @@ void test_stl_containers()
     // Vector
     std::vector<int, IntAllocator> vec;
     for (int i = 0; i < 100; ++i) vec.push_back(i);
-    assert(vec.size() == 100);
-    assert(vec[42] == 42);
+    TEST_ASSERT(vec.size() == 100);
+    TEST_ASSERT(vec[42] == 42);
 
     // String
     std::basic_string<char, std::char_traits<char>, CharAllocator> str = "hello";
     str += " world";
-    assert(str == "hello world");
+    TEST_ASSERT(str == "hello world");
 
     // Map
     std::map<std::string, int, std::less<std::string>, PairAllocator> m;
@@ -74,8 +72,8 @@ void test_stl_containers()
     m["two"] = 2;
     m["three"] = 3;
 
-    assert(m.size() == 3);
-    assert(m.at("two") == 2);
+    TEST_ASSERT(m.size() == 3);
+    TEST_ASSERT(m.at("two") == 2);
 
     // Set
     std::set<int, std::less<int>, IntAllocator> s;
@@ -84,8 +82,8 @@ void test_stl_containers()
     s.insert(20);
     s.insert(30);
 
-    assert(s.find(20) != s.end());
-    assert(s.count(10) == 1);
+    TEST_ASSERT(s.find(20) != s.end());
+    TEST_ASSERT(s.count(10) == 1);
 }
 
 #define TEST_STL(Allocator) \

@@ -1,7 +1,5 @@
-#include "grain.h"
+#include "test.h"
 
-#include <cassert>
-#include <iostream>
 #include <string>
 #include <vector>
 
@@ -23,10 +21,10 @@ void test_simple_alloc_dealloc()
         .weight = 1.5f,
         .kcal = 1200.0f,
     };
-    assert(TheGranary::reach().owns(w));
+    TEST_ASSERT(TheGranary::reach().owns(w));
 
-    assert(std::string(w->origin) == "IT");
-    assert(w->kcal == 1200.0f);
+    TEST_ASSERT(std::string(w->origin) == "IT");
+    TEST_ASSERT(w->kcal == 1200.0f);
 
     delete w;
 }
@@ -45,11 +43,12 @@ void test_array()
         .weight = 1.0f,
         .kcal = 2500.0f,
     };
-    assert(TheGranary::reach().owns(small));
-    assert(TheGranary::reach().owns(large));
+    TEST_ASSERT(TheGranary::reach().owns(small));
+    TEST_ASSERT(TheGranary::reach().owns(large));
 
     Wheat* packs = new Wheat[2] { *small, *large };
-    assert(!TheGranary::reach().owns(packs));
+    (void)packs;
+    TEST_ASSERT(!TheGranary::reach().owns(packs));
 }
 
 void test_multiple_allocations()
@@ -65,7 +64,7 @@ void test_multiple_allocations()
         };
     }
 
-    for (unsigned i = 0; i < 10; ++i) assert(bag[i]->product_id == i);
+    for (unsigned i = 0; i < 10; ++i) TEST_ASSERT(bag[i]->product_id == i);
     for (unsigned i = 0; i < 10; ++i) delete bag[i];
 }
 
@@ -82,7 +81,7 @@ void test_vector()
         });
     }
 
-    for (unsigned i = 0; i < 5; ++i) assert(bag[i]->product_id == i * 10);
+    for (unsigned i = 0; i < 5; ++i) TEST_ASSERT(bag[i]->product_id == i * 10);
     for (Wheat* w : bag) delete w;
 }
 
@@ -105,7 +104,7 @@ void test_big_obj()
         .kcal = 2000.0f,
         .ingredients = "Rice, Wheat, Cereal, Chocolate, Sugar",
     };
-    assert(!TheGranary::reach().owns(cereals));
+    TEST_ASSERT(!TheGranary::reach().owns(cereals));
     delete cereals;
 }
 

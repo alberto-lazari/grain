@@ -26,13 +26,13 @@ void* Sack::pick() noexcept
         _pick_hand = _load.empty()
             ? grab_new_handful()
             : _load.data();
-        assert(_pick_hand);
+        assert(_pick_hand != nullptr);
     }
 
     if (_pick_hand->is_empty())
     {
         _pick_hand = find_with_grains();
-        assert(_pick_hand);
+        assert(_pick_hand != nullptr);
     }
 
     return _pick_hand->pick(_grain_size);
@@ -43,7 +43,8 @@ bool Sack::put_back(void* const grain) noexcept
     if (!_put_back_hand)
     {
         if (_pick_hand) _put_back_hand = _pick_hand;
-        else assert(_put_back_hand = find_with_room());
+        else _put_back_hand = find_with_room();
+        assert(_put_back_hand != nullptr);
     }
 
     if (_put_back_hand->is_full())
@@ -63,7 +64,8 @@ bool Sack::put_back(void* const grain) noexcept
         // Keep the full hand as last
         if (last != _put_back_hand) std::swap(*_put_back_hand, *last);
         // Search only if the full hand was already last
-        else assert(_put_back_hand = find_with_room());
+        else _put_back_hand = find_with_room();
+        assert(_put_back_hand != nullptr);
     }
 
     return _put_back_hand->put_back(grain, _grain_size);

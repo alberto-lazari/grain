@@ -21,6 +21,7 @@ void* operator new(const std::size_t size)
 void operator delete(void* const) noexcept
 {
     constexpr bool ok = true;
+    (void)ok;
     assert(!ok && "using unsized delete, cannot determine size");
 }
 

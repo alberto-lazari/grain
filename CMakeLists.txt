@@ -19,8 +19,10 @@ else()
     add_compile_options(-fsized-deallocation)
 
     add_compile_options(-pedantic -Wall -Wextra)
+endif()
 
-    # Use ASan for memory leaks
+# Use ASan for memory leaks in Debug builds
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_compile_options(-fsanitize=address -fno-omit-frame-pointer)
     add_link_options(-fsanitize=address)
 endif()

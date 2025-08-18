@@ -1,17 +1,17 @@
 #pragma once
 
-#include "grain.h"
+#include "test.h"
 
 #include <chrono>
 #include <cstddef>
 #include <cstdlib>
-#include <iostream>
+#include <format>
 #include <random>
 #include <unordered_set>
 #include <utility>
 
 // Assume minimum alignment in objects
-constexpr std::size_t min_alignment = 2;
+constexpr std::size_t min_alignment = 4;
 
 template <std::size_t size>
 struct Object { std::byte data[size]; };
@@ -117,7 +117,8 @@ void benchmark(const long long iterations, const bool sequential = false)
 void run(const long long seed, const long long iterations)
 {
     std::srand(seed);
-    std::cout << "Seed: " << seed << ", iterations: " << iterations;
+    std::cout << (seed != 0LL ? std::format("seed: {}", seed) : "sequential allocations")
+        << "\t iterations: " << iterations;
 
     auto start = std::chrono::high_resolution_clock::now();
 
@@ -132,8 +133,8 @@ void run(const long long seed, const long long iterations)
 int main()
 {
     constexpr std::size_t seed_count = 4;
-    long long seeds[seed_count] { 3127344003LL, 1878122349LL, 4119109763LL, 0LL };
-    long long iterations[seed_count] { 100'000LL, 1'000'000LL, 2'000'000LL, 50'000LL };
+    long long seeds[seed_count] { 0LL, 3127344003LL, 1878122349LL, 4119109763LL };
+    long long iterations[seed_count] { 100'000LL, 1'000'000LL, 10'000'000LL, 20'000'000LL };
     for (std::size_t i = 0; i < seed_count; ++i) run(seeds[i], iterations[i]);
 
     return 0;

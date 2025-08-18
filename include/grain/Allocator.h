@@ -66,6 +66,7 @@ struct Allocator
     static void deallocate(const pointer p, const size_type n = 1) noexcept
     {
         const bool all_well = TheGranary::reach().put_back(p, sizeof(value_type) * n);
+        (void)all_well;
         assert(all_well);
     }
 
